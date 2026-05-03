@@ -13,11 +13,11 @@ import org.sii.Enums.MemberStatus;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer member_id;
+    private Integer memberId;
 
-    private String first_name;
+    private String firstName;
 
-    private String last_name;
+    private String lastName;
 
     private String email;
 
