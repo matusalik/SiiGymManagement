@@ -13,14 +13,18 @@ import org.sii.Enums.MemberStatus;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer memberId;
+    private Integer member_id;
 
-    private String firstName;
+    private String first_name;
 
-    private String lastName;
+    private String last_name;
 
     private String email;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "membership_id")
+    private Membership membership;
 }

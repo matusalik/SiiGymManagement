@@ -21,6 +21,5 @@ public class Price {
     @Column(precision = 5, scale = 2)
     private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    private Currnecy currency;
+    private String currency;
 }
