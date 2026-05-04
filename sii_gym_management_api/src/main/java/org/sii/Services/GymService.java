@@ -14,15 +14,19 @@ import org.springframework.stereotype.Service;
 public class GymService {
     private final GymRepository gymRepository;
 
+    //---------GET----------//
+
     public Iterable<GymResponse>getGyms(){
         return GymMapper.listToDto(gymRepository.findAll());
     }
 
     public GymResponse getGymById(Integer id){
         Gym gym = gymRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Client with id: " + id + " not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Gym with id: " + id + " not found."));
         return GymMapper.toDto(gym);
     }
+
+    //---------POST----------//
 
     public void addGym(GymRequest dto){
         Gym gym = GymMapper.toEntity(dto);

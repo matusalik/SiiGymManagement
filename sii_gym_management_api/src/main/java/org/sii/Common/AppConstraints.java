@@ -12,5 +12,5 @@ import java.util.List;
 @Getter
 @Setter
 public class AppConstraints {
-    private List<String> supported_currencies;
+    private List<String> supportedCurrencies;
 }

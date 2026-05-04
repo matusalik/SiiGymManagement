@@ -1,0 +1,14 @@
+package org.sii.DTO.Membership;
+
+import jakarta.validation.constraints.NotBlank;
+
+import java.math.BigDecimal;
+
+public record MembershipRequest(
+        @NotBlank String name,
+        @NotBlank Integer maxMembers,
+        @NotBlank String membershipType,
+        @NotBlank BigDecimal amount,
+        @NotBlank String currency,
+        @NotBlank Integer gymId
+) {}

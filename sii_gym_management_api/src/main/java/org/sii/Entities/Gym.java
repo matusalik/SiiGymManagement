@@ -26,4 +26,9 @@ public class Gym {
 
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Membership> memberships = new ArrayList<>();
+
+    public void addMembership(Membership membership){
+        memberships.add(membership);
+        membership.setGym(this);
+    }
 }
