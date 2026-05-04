@@ -1,7 +1,8 @@
 package org.sii.Controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
+import org.sii.Common.Tags;
 import org.sii.DTO.Membership.MembershipRequest;
 import org.sii.DTO.Membership.MembershipResponse;
 import org.sii.Services.MembershipService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/membership")
+@Tag(name = Tags.MembershipsTag)
 public class MembershipController {
     private final MembershipService membershipService;
 
@@ -19,7 +21,12 @@ public class MembershipController {
 
     @GetMapping
     public ResponseEntity<Iterable<MembershipResponse>>getMemberships(){
-        return ResponseEntity.ok(membershipService.getGyms());
+        return ResponseEntity.ok(membershipService.getMemberships());
+    }
+
+    @GetMapping("/getAllByGymId/{gymId}")
+    public ResponseEntity<Iterable<MembershipResponse>>getAllByGymId(@PathVariable Integer gymId){
+        return ResponseEntity.ok(membershipService.getAllByGymId(gymId));
     }
 
     @GetMapping("/{id}")

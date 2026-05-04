@@ -22,8 +22,12 @@ public class MembershipService {
 
     //---------GET----------//
 
-    public Iterable<MembershipResponse>getGyms(){
+    public Iterable<MembershipResponse>getMemberships(){
         return MembershipMapper.listToDto(membershipRepository.findAll());
+    }
+
+    public Iterable<MembershipResponse>getAllByGymId(Integer gymId){
+        return MembershipMapper.listToDto(membershipRepository.findByGym_GymId(gymId));
     }
 
     public MembershipResponse getMembershipById(Integer id){

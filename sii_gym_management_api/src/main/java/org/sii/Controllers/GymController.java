@@ -1,6 +1,8 @@
 package org.sii.Controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.sii.Common.Tags;
 import org.sii.DTO.Gym.GymRequest;
 import org.sii.DTO.Gym.GymResponse;
 import org.sii.Services.GymService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/gym")
+@Tag(name = Tags.GymsTag)
 public class GymController {
     private final GymService gymService;
 
