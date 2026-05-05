@@ -8,6 +8,7 @@ import org.sii.Entities.Member;
 import org.sii.Entities.Membership;
 import org.sii.Enums.MemberStatus;
 import org.sii.Exceptions.CapacityExceededException;
+import org.sii.Exceptions.MemberAlreadyInactiveException;
 import org.sii.Mappers.MemberMapper;
 import org.sii.Repositories.MemberRepository;
 import org.sii.Repositories.MembershipRepository;
@@ -49,6 +50,18 @@ public class MemberService {
 
         membership.addMember(member);
 
+        memberRepository.save(member);
+    }
+
+    //---------PATCH----------//
+
+    public void deactivateMembership(Integer id){
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Member with id: " + id + " not found."));
+        if(member.getStatus().equals(MemberStatus.CANCELLED)){
+            throw new MemberAlreadyInactiveException("Member with id: " + id + " is already inactive.");
+        }
+        member.setStatus(MemberStatus.CANCELLED);
         memberRepository.save(member);
     }
 

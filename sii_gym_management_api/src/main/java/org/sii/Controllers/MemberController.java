@@ -37,4 +37,12 @@ public class MemberController {
         memberService.addMember(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    //---------PATCH----------//
+
+    @PatchMapping("/deactivate/{id}")
+    public ResponseEntity<Void>deactivateMember(@PathVariable Integer id){
+        memberService.deactivateMembership(id);
+        return ResponseEntity.ok().build();
+    }
 }
