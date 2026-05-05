@@ -3,13 +3,12 @@ package org.sii.Controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.sii.Common.Tags;
+import org.sii.DTO.Member.MemberRequest;
 import org.sii.DTO.Member.MemberResponse;
 import org.sii.Services.MemberService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,5 +28,13 @@ public class MemberController {
     public ResponseEntity<MemberResponse>getMemberById(@PathVariable Integer id){
         MemberResponse dto = memberService.getMemberById(id);
         return ResponseEntity.ok(dto);
+    }
+
+    //---------POST----------//
+
+    @PostMapping
+    public ResponseEntity<Void>addMember(@RequestBody MemberRequest dto){
+        memberService.addMember(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

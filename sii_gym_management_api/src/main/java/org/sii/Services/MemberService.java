@@ -2,16 +2,21 @@ package org.sii.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.sii.DTO.Member.MemberRequest;
 import org.sii.DTO.Member.MemberResponse;
 import org.sii.Entities.Member;
+import org.sii.Entities.Membership;
+import org.sii.Exceptions.CapacityExceededException;
 import org.sii.Mappers.MemberMapper;
 import org.sii.Repositories.MemberRepository;
+import org.sii.Repositories.MembershipRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MembershipRepository membershipRepository;
 
     //---------GET----------//
 
@@ -23,6 +28,36 @@ public class MemberService {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Member with id: " + id + " not found."));
         return MemberMapper.toDto(member);
+    }
+
+    //---------POST----------//
+
+    public void addMember(MemberRequest dto){
+        Integer membershipId = dto.membershipId();
+
+        Membership membership = membershipRepository.findById(membershipId)
+                .orElseThrow(() -> new EntityNotFoundException("Membership with id: " + membershipId + " not found."));
+
+        validateCapacity(membership);
+
+        Member member = MemberMapper.toEntity(dto);
+
+        membership.addMember(member);
+
+        memberRepository.save(member);
+    }
+
+    //--------HELPERS--------//
+
+    private void validateCapacity(Membership membership){
+        Integer count = membership.getMembers().size();
+
+        Integer max = membership.getMaxMembers();
+
+        if(count.equals(max)){
+            throw new CapacityExceededException("Membership " + membership.getName() + " is full. Maximum capacity is " +
+                    membership.getMaxMembers() + ".");
+        }
     }
 
 }

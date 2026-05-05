@@ -1,4 +1,10 @@
 package org.sii.DTO.Member;
 
-public record MemberRequest() {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record MemberRequest(
+        @NotBlank String firstName,
+        @NotBlank String lastName,
+        @NotBlank String email,
+        @NotBlank Integer membershipId
+) {}

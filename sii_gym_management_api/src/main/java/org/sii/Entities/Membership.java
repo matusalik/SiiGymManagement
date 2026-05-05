@@ -38,4 +38,9 @@ public class Membership {
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members = new ArrayList<>();
 
+    public void addMember(Member member){
+        members.add(member);
+        member.setMembership(this);
+    }
+
 }
