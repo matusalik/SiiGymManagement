@@ -45,4 +45,10 @@ public class MemberController {
         memberService.deactivateMembership(id);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/activate/{id}")
+    public ResponseEntity<Void>activateMember(@PathVariable Integer id){
+        memberService.activateMembership(id);
+        return ResponseEntity.ok().build();
+    }
 }

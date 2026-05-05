@@ -65,6 +65,16 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public void activateMembership(Integer id){
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Member with id: " + id + " not found."));
+        if(member.getStatus().equals(MemberStatus.ACTIVE)){
+            throw new MemberAlreadyInactiveException("Member with id: " + id + " is already inactive.");
+        }
+        member.setStatus(MemberStatus.ACTIVE);
+        memberRepository.save(member);
+    }
+
     //--------HELPERS--------//
 
     private void validateCapacity(Membership membership){
