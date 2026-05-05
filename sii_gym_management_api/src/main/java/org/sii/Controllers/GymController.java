@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.sii.Common.Tags;
 import org.sii.DTO.Gym.GymRequest;
 import org.sii.DTO.Gym.GymResponse;
+import org.sii.DTO.Revenue.RevenueResponse;
 import org.sii.Services.GymService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,11 @@ public class GymController {
     public ResponseEntity<GymResponse>getGymById(@PathVariable Integer id){
         GymResponse dto = gymService.getGymById(id);
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/revenue")
+    public ResponseEntity<Iterable<RevenueResponse>>getRevenue(){
+        return ResponseEntity.ok(gymService.getRevenue());
     }
 
     //---------POST----------//
