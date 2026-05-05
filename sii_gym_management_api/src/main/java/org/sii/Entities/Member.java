@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.sii.Enums.MemberStatus;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +22,8 @@ public class Member {
     private String lastName;
 
     private String email;
+
+    private LocalDate membershipStartDate;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;

@@ -14,6 +14,7 @@ public class MemberMapper {
                 member.getFirstName(),
                 member.getLastName(),
                 member.getStatus().toString(),
+                member.getMembershipStartDate(),
                 member.getMembership().getName(),
                 member.getMembership().getGym().getName()
         );

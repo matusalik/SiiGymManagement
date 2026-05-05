@@ -6,11 +6,14 @@ import org.sii.DTO.Member.MemberRequest;
 import org.sii.DTO.Member.MemberResponse;
 import org.sii.Entities.Member;
 import org.sii.Entities.Membership;
+import org.sii.Enums.MemberStatus;
 import org.sii.Exceptions.CapacityExceededException;
 import org.sii.Mappers.MemberMapper;
 import org.sii.Repositories.MemberRepository;
 import org.sii.Repositories.MembershipRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +45,8 @@ public class MemberService {
 
         Member member = MemberMapper.toEntity(dto);
 
+        member.setMembershipStartDate(LocalDate.now());
+
         membership.addMember(member);
 
         memberRepository.save(member);
@@ -50,7 +55,9 @@ public class MemberService {
     //--------HELPERS--------//
 
     private void validateCapacity(Membership membership){
-        Integer count = membership.getMembers().size();
+        Integer membershipId = membership.getMembershipId();
+
+        Integer count = membershipRepository.countActiveMembers(membershipId, MemberStatus.ACTIVE);
 
         Integer max = membership.getMaxMembers();
 
