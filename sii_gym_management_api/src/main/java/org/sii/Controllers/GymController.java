@@ -39,8 +39,7 @@ public class GymController {
     //---------POST----------//
 
     @PostMapping
-    public ResponseEntity<Void>addGym(@RequestBody GymRequest dto){
-        gymService.addGym(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<GymResponse>addGym(@RequestBody GymRequest dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(gymService.addGym(dto));
     }
 }

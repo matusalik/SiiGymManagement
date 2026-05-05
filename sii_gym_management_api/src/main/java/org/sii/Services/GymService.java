@@ -60,11 +60,11 @@ public class GymService {
 
     //---------POST----------//
 
-    public void addGym(GymRequest dto){
+    public GymResponse addGym(GymRequest dto){
         if(gymRepository.existsByNameIgnoreCase(dto.name())){
             throw new GymAlreadyExistsException("Gym with name '" + dto.name() + "' already exists");
         }
         Gym gym = GymMapper.toEntity(dto);
-        gymRepository.save(gym);
+        return GymMapper.toDto(gymRepository.save(gym));
     }
 }

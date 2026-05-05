@@ -38,7 +38,7 @@ public class MembershipService {
 
     //---------POST----------//
 
-    public void addMembership(MembershipRequest dto){
+    public MembershipResponse addMembership(MembershipRequest dto){
         validateCurrency(dto.currency());
 
         Integer gymId = dto.gymId();
@@ -50,7 +50,7 @@ public class MembershipService {
 
         gym.addMembership(membership);
 
-        membershipRepository.save(membership);
+        return MembershipMapper.toDto(membershipRepository.save(membership));
     }
 
     //--------HELPERS--------//

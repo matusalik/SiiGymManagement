@@ -33,9 +33,8 @@ public class MemberController {
     //---------POST----------//
 
     @PostMapping
-    public ResponseEntity<Void>addMember(@RequestBody MemberRequest dto){
-        memberService.addMember(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<MemberResponse>addMember(@RequestBody MemberRequest dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.addMember(dto));
     }
 
     //---------PATCH----------//

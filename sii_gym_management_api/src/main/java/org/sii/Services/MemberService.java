@@ -36,7 +36,7 @@ public class MemberService {
 
     //---------POST----------//
 
-    public void addMember(MemberRequest dto){
+    public MemberResponse addMember(MemberRequest dto){
         Integer membershipId = dto.membershipId();
 
         Membership membership = membershipRepository.findById(membershipId)
@@ -50,7 +50,7 @@ public class MemberService {
 
         membership.addMember(member);
 
-        memberRepository.save(member);
+        return MemberMapper.toDto(memberRepository.save(member));
     }
 
     //---------PATCH----------//
