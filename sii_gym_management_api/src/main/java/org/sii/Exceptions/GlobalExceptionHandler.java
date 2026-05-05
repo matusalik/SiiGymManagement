@@ -33,6 +33,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
+    @ExceptionHandler(GymAlreadyExistsException.class)
+    public ResponseEntity<String>handleGymExists(GymAlreadyExistsException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String>handleIllegal(IllegalArgumentException e){
         return ResponseEntity.badRequest().body(e.getMessage());
