@@ -29,7 +29,7 @@ All project documentation is located in the /Docs directory.
 
 ### 1. Interactive Testing (Swagger UI)
 
-    Once the application is running, you can access the interactive API playground at: http://localhost:8080/swagger-ui/index.html
+*   Once the application is running, you can access the interactive API playground at: http://localhost:8080/swagger-ui/index.html
 
 ### 2. Static Documentation (No server required)
 
