@@ -29,20 +29,19 @@ All project documentation is located in the /Docs directory.
 
 1. **Interactive Testing (Swagger UI)**
 
-Once the application is running, you can access the interactive API playground at:
-http://localhost:8080/swagger-ui/index.html
+    Once the application is running, you can access the interactive API playground at: http://localhost:8080/swagger-ui/index.html
 
 2. **Static Documentation (No server required)**
 
-If you prefer not to run the application, you can review the API structure and examples in the Docs/API/ folder:
+    If you prefer not to run the application, you can review the API structure and examples in the Docs/API/ folder:
 
-API Documentation (PDF) - Contains all endpoints with example Requests and Responses.
+    API Documentation (PDF) - Contains all endpoints with example Requests and Responses.
 
-OpenAPI Specification (JSON) - Standard spec file for import into e.g. Postman.
+    OpenAPI Specification (JSON) - Standard spec file for import into e.g. Postman.
 
 3. **Business Logic Documentation**
 
-Internal Javadoc Index - Technical documentation for the Service layer, explaining the internal logic and business rules.
+    nternal Javadoc Index - Technical documentation for the Service layer, explaining the internal logic and business rules.
 
 
 ## Architecture Note
