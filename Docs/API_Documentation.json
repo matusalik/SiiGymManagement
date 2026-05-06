@@ -1,0 +1,647 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Members",
+      "description": "Endpoints for managing gym members and their membership statuses"
+    },
+    {
+      "name": "Gyms",
+      "description": "Endpoints for managing gym facilities and financial reports"
+    },
+    {
+      "name": "Memberships",
+      "description": "Endpoints for defining and retrieving membership plans"
+    }
+  ],
+  "paths": {
+    "/api/membership": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "summary": "Get all membership plans",
+        "description": "Retrieves a list of all membership plans across all gyms.",
+        "operationId": "getMemberships",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Memberships"
+        ],
+        "summary": "Create a new membership plan",
+        "description": "Defines a new membership tier (e.g., Gold, Silver) with a specific price and currency.",
+        "operationId": "addMembership",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MembershipRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Membership plan created successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid plan details or unsupported currency",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/member": {
+      "get": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Get all members",
+        "description": "Retrieves a complete list of all registered members.",
+        "operationId": "getMembers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Register a new member",
+        "description": "Creates a new member profile and assigns them to a membership plan.",
+        "operationId": "addMember",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Member successfully registered",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data provided",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gym": {
+      "get": {
+        "tags": [
+          "Gyms"
+        ],
+        "summary": "Get all gyms",
+        "description": "Returns a list of all registered gym facilities.",
+        "operationId": "getGyms",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Gyms"
+        ],
+        "summary": "Register a new gym",
+        "description": "Creates a new gym entry. The name must be unique across the system.",
+        "operationId": "addGym",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GymRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict: A gym with this name already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GymResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Gym created successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GymResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/member/deactivate/{id}": {
+      "patch": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Deactivate membership",
+        "description": "Sets the member's status to INACTIVE. Use this when a member cancels or pauses their plan.",
+        "operationId": "deactivateMember",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Membership successfully deactivated"
+          },
+          "404": {
+            "description": "Member not found"
+          },
+          "409": {
+            "description": "Conflict: Member is already INACTIVE"
+          }
+        }
+      }
+    },
+    "/api/member/activate/{id}": {
+      "patch": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Activate membership",
+        "description": "Sets the member's status to ACTIVE. Use this to reactivate a previously deactivated account.",
+        "operationId": "activateMember",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Membership successfully activated"
+          },
+          "404": {
+            "description": "Member not found"
+          },
+          "409": {
+            "description": "Conflict: Member is already ACTIVE"
+          }
+        }
+      }
+    },
+    "/api/membership/{id}": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "summary": "Get membership plan by ID",
+        "description": "Retrieves details of a specific membership plan.",
+        "operationId": "getMembershipById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plan found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/membership/getAllByGymId/{gymId}": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "summary": "Get plans by Gym ID",
+        "description": "Retrieves all membership plans associated with a specific gym facility.",
+        "operationId": "getAllByGymId",
+        "parameters": [
+          {
+            "name": "gymId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of plans retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Gym not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/member/{id}": {
+      "get": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Get member by ID",
+        "description": "Retrieves detailed information about a specific member using their unique ID.",
+        "operationId": "getMemberById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Member not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gym/{id}": {
+      "get": {
+        "tags": [
+          "Gyms"
+        ],
+        "summary": "Get gym by ID",
+        "description": "Retrieves detailed information about a specific gym.",
+        "operationId": "getGymById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Gym with the given ID does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GymResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Gym found successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GymResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gym/revenue": {
+      "get": {
+        "tags": [
+          "Gyms"
+        ],
+        "summary": "Get global revenue",
+        "description": "Calculates and returns the revenue for all gyms based on active memberships.",
+        "operationId": "getRevenue",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MembershipRequest": {
+        "required": [
+          "amount",
+          "currency",
+          "gymId",
+          "maxMembers",
+          "membershipType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "maxMembers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "membershipType": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "gymId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MembershipResponse": {
+        "required": [
+          "amount",
+          "currency",
+          "gymId",
+          "maxMembers",
+          "membershipId",
+          "membershipType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "membershipId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "maxMembers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "membershipType": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "gymId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MemberRequest": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "membershipId"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "membershipId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MemberResponse": {
+        "required": [
+          "firstName",
+          "gymName",
+          "lastName",
+          "membershipName",
+          "membershipStartDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "membershipStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "membershipName": {
+            "type": "string"
+          },
+          "gymName": {
+            "type": "string"
+          }
+        }
+      },
+      "GymRequest": {
+        "required": [
+          "address",
+          "name",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "GymResponse": {
+        "required": [
+          "address",
+          "gymId",
+          "name",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "gymId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
