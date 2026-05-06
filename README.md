@@ -27,24 +27,29 @@ A Spring Boot-based backend application for managing gym facilities, membership 
 ## API & Technical Documentation
 All project documentation is located in the /Docs directory.
 
-1. **Interactive Testing (Swagger UI)**
+### 1. Interactive Testing (Swagger UI)
 
     Once the application is running, you can access the interactive API playground at: http://localhost:8080/swagger-ui/index.html
 
-2. **Static Documentation (No server required)**
+### 2. Static Documentation (No server required)
 
-    If you prefer not to run the application, you can review the API structure and examples in the Docs/API/ folder:
+Review the API structure without running the server:
 
-    API Documentation (PDF) - Contains all endpoints with example Requests and Responses.
+*   **API Documentation (PDF)** - Located in `./Docs/API/API_Documentation.pdf`. Detailed overview with example Requests and Responses.
+*   **OpenAPI Spec (JSON)** - Located in `./Docs/API/API_Documentation.json`. Perfect for importing into Postman or Insomnia.
 
-    OpenAPI Specification (JSON) - Standard spec file for import into e.g. Postman.
+### 3. Business Logic Documentation
 
-3. **Business Logic Documentation**
+*   **Internal Javadoc Index** - Located in `./Docs/Javadoc/index.html`. Documentation on Service layer logic, business rules, and exception handling.
 
-    nternal Javadoc Index - Technical documentation for the Service layer, explaining the internal logic and business rules.
+## Architecture & Design
+The system implements a Layered Architecture to ensure maintainability and scalability:
 
+*   **Controller Layer:** REST API endpoints and request validation.
+*   **Service Layer:** Core business logic (capacity validation, revenue calculation).
+*   **Repository Layer:** Data persistence and custom queries.
+*   **DTO Pattern:** Strict separation between database entities and API contracts.
+*   **Global Exception Handling:** Centralized `@ControllerAdvice` for consistent error reporting.
 
-## Architecture Note
-The project follows a layered architecture (Controller -> Service -> Repository) with a clear separation between Database Entities and API Data Transfer Objects (DTOs). It includes global exception handling and idempotency checks (e.g., preventing duplicate status activations).
-
-**Created by Mateusz Salik (matusalik)**
+### Author
+**Mateusz Salik**
